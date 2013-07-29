@@ -150,13 +150,16 @@ var PlayerShip = function() {
     if(Game.keys['left']) { this.vx = -this.maxVel; }
     else if(Game.keys['right']) { this.vx = this.maxVel; }
     else { this.vx = 0; }
+	
+    if(Game.keys['up']) { this.vy = -this.maxVel; }
+    else if(Game.keys['down']) { this.vy = this.maxVel; }
+    else { this.vy = 0; }
 
     this.x += this.vx * dt;
+	this.y += this.vy * dt;
 
-    if(this.x < 0) { this.x = 0; }
-    else if(this.x > Game.width - this.w) { 
-      this.x = Game.width - this.w;
-    }
+	this.x = MathUtil.clamp(0, this.x, Game.width - this.w);
+	this.y = MathUtil.clamp(0, this.y, Game.height - this.h);
 
     this.reload-=dt;
     if(Game.keys['fire'] && this.reload < 0) {
