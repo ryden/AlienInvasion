@@ -394,20 +394,38 @@ var TouchControls = function() {
   this.step = function(dt) { };
 
   this.trackTouch = function(e) {
-    var touch, x;
+    var touch, x, y;
 
     e.preventDefault();
     Game.keys['left'] = false;
     Game.keys['right'] = false;
+	Game.keys['up'] = false;
+	Game.keys['down'] = false;
     for(var i=0;i<e.targetTouches.length;i++) {
       touch = e.targetTouches[i];
       x = touch.pageX / Game.canvasMultiplier - Game.canvas.offsetLeft;
-      if(x < unitWidth) {
-        Game.keys['left'] = true;
-      } 
-      if(x > unitWidth && x < 2*unitWidth) {
-        Game.keys['right'] = true;
-      } 
+	  y = Game.height - (touch.pageY / Game.canvasMultiplier - Game.canvas.offsetTop);
+	  
+	  if ( x < unitWidth*2 && y < unitWidth*3 )
+	  {
+		if ( y < unitWidth )
+		{
+			Game.keys['down'] = true;
+		}
+		else if ( y > unitWidth* 2 )
+		{
+			Game.keys['up'] = true;
+		}
+		else
+		{
+		  if(x < unitWidth) {
+			Game.keys['left'] = true;
+		  } 
+		  if(x > unitWidth && x < 2*unitWidth) {
+			Game.keys['right'] = true;
+		  } 
+		}
+	  }
     }
 
     if(e.type == 'touchstart' || e.type == 'touchend') {
