@@ -13,13 +13,13 @@ var enemies = {
   straight: { x: 0,   y: -50, sprite: 'enemy_ship', health: 10, 
               yVelocity: 100 },
   ltr:      { x: 0,   y: -100, sprite: 'enemy_purple', health: 10, 
-              xAmplitude: 75, xFrequency: 1, yVelocity: 100, missiles: 2  },
-  circle:   { x: 250,   y: -50, sprite: 'enemy_circle', health: 10, 
-              xVelocity: 0,  xAmplitude: -100, xFrequency: 1, yVelocity: 20, yAmplitude: 100, yFrequency: 1, yPhase: Math.PI/2 },
+              xAmplitude: 0.5, xFrequency: 1, yVelocity: 100, missiles: 2  },
+  circle:   { x: 280,   y: -50, sprite: 'enemy_circle', health: 10, 
+              xVelocity: 0,  xAmplitude: -0.666, xFrequency: 1, yVelocity: 20, yAmplitude: 0.2, yFrequency: 1, yPhase: Math.PI/2 },
   wiggle:   { x: 100, y: -50, sprite: 'enemy_bee', health: 20, 
-              xAmplitude: 50, xFrequency: 4, yVelocity: 100, firePercentage: 0.001, missiles: 2 },
+              xAmplitude: 0.333, xFrequency: 4, yVelocity: 100, firePercentage: 0.001, missiles: 2 },
   step:     { x: 0,   y: -50, sprite: 'enemy_circle', health: 10,
-              xAmplitude: 150, xFrequency: 1.2, yVelocity: 75 }
+              xAmplitude: 1.0, xFrequency: 1.2, yVelocity: 75 }
 };
 
 var OBJECT_PLAYER = 1,
@@ -227,8 +227,11 @@ Enemy.prototype.baseParameters = { xVelocity: 0, xAmplitude: 0, xFrequency: 0, x
 Enemy.prototype.step = function(dt) {
   this.t += dt;
 
-  this.vx = this.xVelocity + this.xAmplitude * Math.sin(this.xFrequency * this.t + this.xPhase);
-  this.vy = this.yVelocity + this.yAmplitude * Math.sin(this.yFrequency * this.t + this.yPhase);
+  var halfWidth = (Game.width + this.w) * 0.5;
+  var halfHeight = (Game.height + this.h) * 0.5;
+  
+  this.vx = this.xVelocity + (this.xAmplitude * halfWidth) * Math.sin(this.xFrequency * this.t + this.xPhase);
+  this.vy = this.yVelocity + (this.yAmplitude * halfHeight) * Math.sin(this.yFrequency * this.t + this.yPhase);
 
   this.x += this.vx * dt;
   this.y += this.vy * dt;
