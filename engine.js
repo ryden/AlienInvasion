@@ -59,6 +59,7 @@ var Game = new function() {
 
   this.setupInput = function() {
     window.addEventListener('keydown',function(e) {
+	  var event = e || event || window.event;
       if(KEY_CODES[event.keyCode]) {
        Game.keys[KEY_CODES[event.keyCode]] = true;
        e.preventDefault();
@@ -66,6 +67,7 @@ var Game = new function() {
     },false);
 
     window.addEventListener('keyup',function(e) {
+      var event = e || event || window.event;
       if(KEY_CODES[event.keyCode]) {
        Game.keys[KEY_CODES[event.keyCode]] = false; 
        e.preventDefault();
