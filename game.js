@@ -164,7 +164,6 @@ var PlayerShip = function() {
 
     this.reload-=dt;
     if(Game.keys['fire'] && this.reload < 0) {
-      Game.keys['fire'] = false;
       this.reload = this.reloadTime;
 
       this.board.add(new PlayerMissile(this.x,this.y+this.h/2));
