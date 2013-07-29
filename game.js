@@ -178,6 +178,7 @@ PlayerShip.prototype.type = OBJECT_PLAYER;
 PlayerShip.prototype.hit = function(damage) {
   if ( --Game.lives <= 0 )
   {
+	Game.lives = 0;
     if(this.board.remove(this))
 	{
       this.board.add(new Explosion(this.x + this.w/2, 
