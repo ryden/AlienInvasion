@@ -450,3 +450,20 @@ var GamePoints = function() {
 
   this.step = function(dt) { };
 };
+
+var GameLives = function(lives) {
+	Game.lives = lives;
+	
+	this.draw = function(ctx) {
+		ctx.save();
+		ctx.font = "bold 18px arial";
+		ctx.fillStyle = "#FFFFFF";
+		
+		var txt = "Lives: " + Game.lives;
+		
+		ctx.fillText(txt, 10, 40);
+		ctx.restore();
+	};
+	
+	this.step = function(dt) {};
+};

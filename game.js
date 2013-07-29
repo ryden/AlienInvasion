@@ -64,6 +64,7 @@ var playGame = function() {
   board.add(new Level(level1,winGame));
   Game.setBoard(3,board);
   Game.setBoard(5,new GamePoints(0));
+  Game.setBoard(6,new GameLives(3));
 };
 
 var winGame = function() {
@@ -176,8 +177,14 @@ PlayerShip.prototype = new Sprite();
 PlayerShip.prototype.type = OBJECT_PLAYER;
 
 PlayerShip.prototype.hit = function(damage) {
-  if(this.board.remove(this)) {
-    loseGame();
+  if ( --Game.lives <= 0 )
+  {
+    if(this.board.remove(this))
+	{
+      this.board.add(new Explosion(this.x + this.w/2, 
+                                   this.y + this.h/2,
+								   loseGame));
+	}
   }
 };
 
@@ -284,10 +291,11 @@ EnemyMissile.prototype.step = function(dt)  {
 
 
 
-var Explosion = function(centerX,centerY) {
+var Explosion = function(centerX,centerY, fn) {
   this.setup('explosion', { frame: 0 });
   this.x = centerX - this.w/2;
   this.y = centerY - this.h/2;
+  this.fn = fn;
 };
 
 Explosion.prototype = new Sprite();
@@ -296,6 +304,10 @@ Explosion.prototype.step = function(dt) {
   this.frame++;
   if(this.frame >= 12) {
     this.board.remove(this);
+	if ( this.fn != undefined )
+	{
+	  this.fn(this);
+	}
   }
 };
 
