@@ -11,15 +11,15 @@ var sprites = {
 
 var enemies = {
   straight: { x: 0,   y: -50, sprite: 'enemy_ship', health: 10, 
-              E: 100 },
+              yVelocity: 100 },
   ltr:      { x: 0,   y: -100, sprite: 'enemy_purple', health: 10, 
-              B: 75, C: 1, E: 100, missiles: 2  },
+              xAmplitude: 75, xFrequency: 1, yVelocity: 100, missiles: 2  },
   circle:   { x: 250,   y: -50, sprite: 'enemy_circle', health: 10, 
-              A: 0,  B: -100, C: 1, E: 20, F: 100, G: 1, H: Math.PI/2 },
+              xVelocity: 0,  xAmplitude: -100, xFrequency: 1, yVelocity: 20, yAmplitude: 100, yFrequency: 1, yPhase: Math.PI/2 },
   wiggle:   { x: 100, y: -50, sprite: 'enemy_bee', health: 20, 
-              B: 50, C: 4, E: 100, firePercentage: 0.001, missiles: 2 },
+              xAmplitude: 50, xFrequency: 4, yVelocity: 100, firePercentage: 0.001, missiles: 2 },
   step:     { x: 0,   y: -50, sprite: 'enemy_circle', health: 10,
-              B: 150, C: 1.2, E: 75 }
+              xAmplitude: 150, xFrequency: 1.2, yVelocity: 75 }
 };
 
 var OBJECT_PLAYER = 1,
@@ -219,16 +219,16 @@ var Enemy = function(blueprint,override) {
 Enemy.prototype = new Sprite();
 Enemy.prototype.type = OBJECT_ENEMY;
 
-Enemy.prototype.baseParameters = { A: 0, B: 0, C: 0, D: 0, 
-                                   E: 0, F: 0, G: 0, H: 0,
+Enemy.prototype.baseParameters = { xVelocity: 0, xAmplitude: 0, xFrequency: 0, xPhase: 0, 
+                                   yVelocity: 0, yAmplitude: 0, yFrequency: 0, yPhase: 0,
                                    t: 0, reloadTime: 0.75, 
                                    reload: 0 };
 
 Enemy.prototype.step = function(dt) {
   this.t += dt;
 
-  this.vx = this.A + this.B * Math.sin(this.C * this.t + this.D);
-  this.vy = this.E + this.F * Math.sin(this.G * this.t + this.H);
+  this.vx = this.xVelocity + this.xAmplitude * Math.sin(this.xFrequency * this.t + this.xPhase);
+  this.vy = this.yVelocity + this.yAmplitude * Math.sin(this.yFrequency * this.t + this.yPhase);
 
   this.x += this.vx * dt;
   this.y += this.vy * dt;
